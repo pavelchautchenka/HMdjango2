@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Ingredients{% endblock %}
+
+{% block links %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container py-5">
+        <label> Step one</label>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="text-muted">{{ field.help_text }}</div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="d-grid gap-2  d-md-flex justify-content-md-start">
+                
+                <a href="{% url 'create-ingredients' %}" class="btn btn-primary ">Add Ingredient</a>
+            </div>
+        <hr> 
+        
+        <hr>
+            <button type="submit" class="btn btn-primary">Create Recipe</button>
+        </form>
+    </div>
+{% endblock %}
