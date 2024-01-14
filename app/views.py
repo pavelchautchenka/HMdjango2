@@ -39,13 +39,21 @@ def create_ingredients(request: WSGIRequest):
     form = IngredientsForm()
 
     if request.method == 'POST':
-        form = IngredientsForm(request.POST, request.FILES)  # Файлы находятся отдельно!
-        if form.is_valid():
-            ingredient = form.save(commit=False)
-            # Не сохранять в базу рецепт, а вернуть его объект.
-            ingredient.save()  # Сохраняем в базу объект.
-            form.save_m2m()  # Сохраняем отношения many to many для ингредиентов и рецепта.
-            return HttpResponseRedirect(reverse("create-recipe"))
+        form = IngredientsForm(request.POST, request.FILES)
+        if "action" in request.POST:
+            if request.POST["action"] == "create":
+                if form.is_valid():
+                    ingredient = form.save(commit=False)
+                    # Не сохранять в базу рецепт, а вернуть его объект.
+                    ingredient.save()  # Сохраняем в базу объект.
+                    form.save_m2m()  # Сохраняем отношения many to many для ингредиентов и рецепта.
+                    return HttpResponseRedirect(reverse("create-recipe"))
+            if request.POST["action"] == "add":
+                if form.is_valid():
+                    ingredient = form.save(commit=False)
+                    ingredient.save()
+                    form.save_m2m()
+                    return HttpResponseRedirect(reverse("create-ingredients"))
 
     return render(request, 'ingredient-form.html', {'form': form})
 

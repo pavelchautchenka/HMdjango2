@@ -26,14 +26,9 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <div class="d-grid gap-2  d-md-flex justify-content-md-start">
-                
-                <a href="{% url 'create-ingredients' %}" class="btn btn-primary ">Add Ingredient</a>
-            </div>
-        <hr> 
+            <button type="submit" class="btn btn-primary" name="action" value="add">Add ingredient</button>
         
-        <hr>
-            <button type="submit" class="btn btn-primary">Create Recipe</button>
+            <button type="submit" class="btn btn-primary" name="action" value="create">Create Recipe</button>
         </form>
     </div>
 {% endblock %}
